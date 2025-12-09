@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import { Button } from "../ui/button";
 
-export default function HomeNavbar() {
+export default function NavbarHome() {
 
   const linkData = [
     { name: "home", href: "#" , className: "text-orange-500"},

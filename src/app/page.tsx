@@ -1,12 +1,15 @@
 import Banner from "@/components/home/banner";
-import HomeNavbar from "@/components/home/home-navbar";
-import Image from "next/image";
+import Footer from "@/components/home/footer";
+import NavbarHome from "@/components/home/navbar-home";
 
 export default function Home() {
   return (
-    <div className="px-10 pt-4">
-    <HomeNavbar/>
-    <Banner/>
-    </div>
+    <>
+      <div className="px-10 pt-4">
+        <NavbarHome />
+        <Banner />
+      </div>
+      <Footer />
+    </>
   );
 }
