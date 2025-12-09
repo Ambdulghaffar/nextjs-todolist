@@ -5,8 +5,8 @@ import { Button } from "../ui/button";
 export default function Banner() {
   return (
     <div className="flex flex-col justify-center items-center my-20 space-y-4">
-      <p className="text-6xl capitalize font-bold">to do list</p>
-      <p className="border rounded-full px-4 pt-4 pb-7 bg-orange-500 text-5xl text-white font-bold capitalize">
+      <p className="text-8xl capitalize font-bold">to do list</p>
+      <p className="border rounded-full px-4 pt-4 pb-7 bg-orange-500 text-6xl text-white font-bold capitalize">
         optimizer
       </p>
       <p className="text-stone-500 text-center">

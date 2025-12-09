@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { Button } from "../ui/button";
+import { CheckCircle } from "lucide-react";
 
 export default function NavbarHome() {
 
@@ -16,7 +17,7 @@ export default function NavbarHome() {
       <div className="flex justify-between items-center ">
         <div className="flex items-center gap-10">
           <div className="flex items-center gap-3">
-            <p>icon</p>
+            <CheckCircle/>
             <p className="font-bold">ToDo<span className="text-orange-500">lt</span></p>
           </div>
           {linkData.map((link,index)=>(
