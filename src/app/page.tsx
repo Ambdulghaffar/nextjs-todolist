@@ -2,7 +2,6 @@ import Banner from "@/components/home/banner";
 import Footer from "@/components/home/footer";
 import NavbarHome from "@/components/home/navbar-home";
 
-
 export default function Home() {
   return (
     <>
