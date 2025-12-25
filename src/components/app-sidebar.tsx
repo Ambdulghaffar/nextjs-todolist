@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import {
-  GalleryVerticalEnd,
+  Activity,
   LifeBuoy,
   SquareTerminal,
 } from "lucide-react"
@@ -22,7 +22,7 @@ const data = {
   teams: [
     {
       name: "HealDocs",
-      logo: GalleryVerticalEnd,
+      logo: Activity,
     }
   ],
   navMain: [
