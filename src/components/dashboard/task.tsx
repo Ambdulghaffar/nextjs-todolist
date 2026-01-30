@@ -17,57 +17,21 @@ import {
 import { Checkbox } from "../ui/checkbox";
 import { TodoResponseDTO } from "@/lib/dotolist/models/todolist.models";
 import { getAllTodolist } from "@/lib/dotolist/services/todolists.services";
-import { dayjsLocale } from "@/shared/index-shared";
+import { dayjsLocale, truncateStr } from "@/shared/index-shared";
+import dayjs from "dayjs";
 
 export default function Task() {
   const tabs = [
-    { label: "active task", className: "text-black" },
-    { label: "completed", className: "text-gray-500" },
+    { label: "tâches actives", className: "text-black" },
+    { label: "terminées", className: "text-gray-500" },
   ];
 
-  const tasks = [
-    {
-      title: "Team Meeting",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur elit lddv nlorem idfsrfi.",
-      time: "10:30 AM - 12:00 PM",
-      className: "bg-blue-200",
-    },
-    {
-      title: "Work on Branding",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur elit lddv nlorem idfsrfi.",
-      time: "10:30 AM - 12:00 PM",
-      className: "bg-purple-200",
-    },
-    {
-      title: "Make a Report for client",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur elit lddv nlorem idfsrfi.",
-      time: "10:30 AM - 12:00 PM",
-      className: "bg-yellow-100",
-    },
-    {
-      title: "Create a planer",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur elit lddv nlorem idfsrfi.",
-      time: "10:30 AM - 12:00 PM",
-      className: "bg-pink-200",
-    },
-    {
-      title: "Create Treatment Plan",
-      description:
-        "Lorem ipsum dolor sit amet, consectetur elit lddv nlorem idfsrfi.",
-      time: "10:30 AM - 12:00 PM",
-      className: "bg-green-200",
-    },
-  ];
 
   const [data, setData] = useState<TodoResponseDTO[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const todolists = await getAllTodolist();
+      const todolists = await getAllTodolist('desc');
       setData(todolists);
     };
 
@@ -78,7 +42,7 @@ export default function Task() {
     <div className="px-5 space-y-6">
       <div className="flex items-center justify-between  py-5 border-b border-t">
         <div className="flex items-center gap-2">
-          <p className="font-bold text-lg">21 novembre 2026</p>
+          <p className="font-bold text-lg">{dayjs().format('DD/MM/YYYY')}</p>
           <ChevronDown />
         </div>
         <div className="flex items-center gap-3">
@@ -90,7 +54,7 @@ export default function Task() {
           </InputGroup>
           <Button className="bg-blue-700">
             <Plus />
-            <span className="capitalize">add new list</span>
+            <span className="capitalize">Ajouter une tache</span>
           </Button>
         </div>
       </div>
@@ -118,10 +82,10 @@ export default function Task() {
                   <Trash size={18} color="red"/>
                 </div>
               </CardTitle>
-              <CardDescription>{todolist.description}</CardDescription>
+              <CardDescription>{truncateStr(todolist.description)}</CardDescription>
             </CardHeader>
             <CardFooter>
-              <p>{dayjsLocale(todolist.createdAt)}</p>
+              <p>{dayjsLocale(todolist.updatedAt)}</p>
             </CardFooter>
           </Card>
         ))}

@@ -12,9 +12,11 @@ const {
     },
 } = environment;
 
-export async function getAllTodolist(): Promise<TodoResponseDTO[]> {
+export async function getAllTodolist(
+    order?: 'asc' | 'desc'
+): Promise<TodoResponseDTO[]> {
     return axios
-    .get<TodoResponseDTO[]>(`${todoUrl}`)
+    .get<TodoResponseDTO[]>(`${todoUrl}`,{params: { order }})
     .then((response)=> response.data)
     .catch((error) => {
         console.error("Error fetching todo lists:", error);
