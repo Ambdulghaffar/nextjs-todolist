@@ -1,12 +1,7 @@
 "use client";
-import { ChevronDown, Pencil, Plus, Search, Trash } from "lucide-react";
+import { Pencil } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "../ui/input-group";
 import {
   Card,
   CardDescription,
@@ -16,9 +11,14 @@ import {
 } from "../ui/card";
 import { Checkbox } from "../ui/checkbox";
 import { TodoResponseDTO } from "@/lib/dotolist/models/todolist.models";
-import { getAllTodolist } from "@/lib/dotolist/services/todolists.services";
+import {
+  deleteTodoList,
+  getAllTodolist,
+} from "@/lib/dotolist/services/todolists.services";
 import { dayjsLocale, truncateStr } from "@/shared/index-shared";
-import dayjs from "dayjs";
+import { AlertDialogDestructive } from "../alert-dialog-desctructive";
+import SubTask from "./sub-task";
+import { toast } from "react-toastify";
 
 export default function Task() {
   const tabs = [
@@ -26,38 +26,34 @@ export default function Task() {
     { label: "terminées", className: "text-gray-500" },
   ];
 
-
   const [data, setData] = useState<TodoResponseDTO[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const todolists = await getAllTodolist('desc');
+      const todolists = await getAllTodolist("desc");
       setData(todolists);
     };
 
     fetchData();
   }, []);
 
+  const handleDelete = async (todoId: number) => {
+    await deleteTodoList(todoId);
+    setData((prevData) => prevData.filter((todo) => todo.id !== todoId));
+    toast.success(`Tache supprimée avec succès !`, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  };
+
   return (
     <div className="px-5 space-y-6">
-      <div className="flex items-center justify-between  py-5 border-b border-t">
-        <div className="flex items-center gap-2">
-          <p className="font-bold text-lg">{dayjs().format('DD/MM/YYYY')}</p>
-          <ChevronDown />
-        </div>
-        <div className="flex items-center gap-3">
-          <InputGroup>
-            <InputGroupInput className="capitalize" placeholder="search list" />
-            <InputGroupAddon>
-              <Search />
-            </InputGroupAddon>
-          </InputGroup>
-          <Button className="bg-blue-700">
-            <Plus />
-            <span className="capitalize">Ajouter une tache</span>
-          </Button>
-        </div>
-      </div>
+      <SubTask />
       <div className="flex items-center gap-3 ">
         {tabs.map((tab, id) => (
           <Button
@@ -78,11 +74,15 @@ export default function Task() {
                   <p>{todolist.title}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Pencil size={18} color="blue"/>
-                  <Trash size={18} color="red"/>
+                  <Pencil className="cursor-pointer" size={18} color="blue" />
+                  <AlertDialogDestructive
+                    onConfirm={() => handleDelete(todolist.id)}
+                  />
                 </div>
               </CardTitle>
-              <CardDescription>{truncateStr(todolist.description)}</CardDescription>
+              <CardDescription>
+                {truncateStr(todolist.description)}
+              </CardDescription>
             </CardHeader>
             <CardFooter>
               <p>{dayjsLocale(todolist.updatedAt)}</p>
