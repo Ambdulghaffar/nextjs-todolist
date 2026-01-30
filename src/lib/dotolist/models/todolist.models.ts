@@ -2,8 +2,8 @@ export type TodoList = {
     id: number;
     title: string;
     description: string;
-    createdAt:  Date;
-    updatedAt: Date;
+    createdAt:  string;
+    updatedAt: string;
 }
 
 export interface TodoRequestDTO {
@@ -15,6 +15,6 @@ export interface TodoResponseDTO {
     id: number;
     title: string;
     description: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 } 
