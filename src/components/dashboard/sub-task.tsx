@@ -7,6 +7,7 @@ import {
   InputGroupInput,
 } from "../ui/input-group";
 import dayjs from "dayjs";
+import Link from "next/link";
 
 export default function SubTask() {
   return (
@@ -22,9 +23,9 @@ export default function SubTask() {
             <Search />
           </InputGroupAddon>
         </InputGroup>
-        <Button className="bg-blue-700">
+        <Button className="bg-blue-700 hover:bg-blue-800">
           <Plus />
-          <span className="capitalize">Ajouter une tache</span>
+          <Link href="/dashboard/tasks/create" className="capitalize">Ajouter une tache</Link>
         </Button>
       </div>
     </div>
