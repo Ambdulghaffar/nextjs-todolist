@@ -1,11 +1,11 @@
 import SidebarBreadcrumb from "@/components/dashboard/sidebar-breadcrumb";
-import Task from "@/components/dashboard/task";
+import React from "react";
 
-export default function Page() {
+export default function AddTask() {
   return (
-    <>
+    <div>
       <SidebarBreadcrumb />
-      <Task />
-    </>
+      AddTask page
+    </div>
   );
 }

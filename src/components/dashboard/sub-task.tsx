@@ -8,6 +8,7 @@ import {
 } from "../ui/input-group";
 import dayjs from "dayjs";
 import Link from "next/link";
+import { ROUTES } from "@/utils/routes";
 
 export default function SubTask() {
   return (
@@ -25,7 +26,7 @@ export default function SubTask() {
         </InputGroup>
         <Button className="bg-blue-700 hover:bg-blue-800">
           <Plus />
-          <Link href="/dashboard/tasks/create" className="capitalize">Ajouter une tache</Link>
+          <Link href={ROUTES.CREATE_TASK} className="capitalize">Ajouter une tache</Link>
         </Button>
       </div>
     </div>
