@@ -4,7 +4,7 @@ import React from "react";
 export default function AddTask() {
   return (
     <div>
-      <SidebarBreadcrumb />
+      <SidebarBreadcrumb label="Ajouter une tache" />
       AddTask page
     </div>
   );
