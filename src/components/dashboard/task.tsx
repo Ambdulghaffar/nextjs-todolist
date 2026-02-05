@@ -1,5 +1,4 @@
 "use client";
-import { Pencil } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import {
@@ -19,6 +18,8 @@ import { dayjsLocale, truncateStr } from "@/shared/index-shared";
 import { AlertDialogDestructive } from "../alert-dialog-desctructive";
 import SubTask from "./sub-task";
 import { toast } from "react-toastify";
+import { AlertDialogForm } from "./alert-dialog-form";
+import { Pencil } from "lucide-react";
 
 export default function Task() {
   const tabs = [
@@ -74,7 +75,15 @@ export default function Task() {
                   <p>{todolist.title}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Pencil className="cursor-pointer" size={18} color="blue" />
+                  <AlertDialogForm
+                    trigger={
+                      <Pencil
+                        className="cursor-pointer"
+                        size={18}
+                        color="blue"
+                      />
+                    }
+                  />
                   <AlertDialogDestructive
                     onConfirm={() => handleDelete(todolist.id)}
                   />

@@ -9,6 +9,8 @@ import {
 import dayjs from "dayjs";
 import Link from "next/link";
 import { ROUTES } from "@/utils/routes";
+import { AlertDialog } from "radix-ui";
+import { AlertDialogForm } from "./alert-dialog-form";
 
 export default function SubTask() {
   return (
@@ -24,10 +26,14 @@ export default function SubTask() {
             <Search />
           </InputGroupAddon>
         </InputGroup>
-        <Button className="bg-blue-700 hover:bg-blue-800">
-          <Plus />
-          <Link href={ROUTES.CREATE_TASK} className="capitalize">Ajouter une tache</Link>
-        </Button>
+        <AlertDialogForm
+          trigger={
+            <Button className="bg-blue-700 hover:bg-blue-800">
+              <Plus />
+              <p>Ajouter une tache</p>
+            </Button>
+          }
+        />
       </div>
     </div>
   );
