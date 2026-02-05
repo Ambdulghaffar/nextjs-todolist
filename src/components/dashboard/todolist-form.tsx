@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -12,74 +12,108 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '../ui/textarea';
-import { useEffect } from 'react';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "../ui/textarea";
+import { useEffect } from "react";
+import { createTodoList } from "@/lib/dotolist/services/todolists.services";
+import { toast } from "react-toastify";
+import { ROUTES } from "@/utils/routes";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
-  title: z
-    .string()
-    .min(2, 'Le titre doit faire entre 3 et 100 caractères'),
+  title: z.string().min(2, "Le titre doit faire entre 3 et 100 caractères"),
   description: z
     .string()
-    .max(500, 'La description ne doit pas dépasser 500 caractères'),
-updatedAt: z.string().optional(),
+    .max(500, "La description ne doit pas dépasser 500 caractères"),
+  updatedAt: z.string().optional(),
 });
 
 type TodolistFormProps = {
-  mode?: 'create' | 'edit';
+  mode: "create" | "edit";
   initialData?: z.infer<typeof formSchema>;
-}
+};
 
 export function TodolistForm({ mode, initialData }: TodolistFormProps) {
+
+  const route = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: '',
-      description: '',
-      updatedAt: '',
+      title: "",
+      description: "",
+      updatedAt: "",
     },
   });
 
   /* pré-remplissage en modification */
-  useEffect(()=>{
-    if(mode === "edit" && initialData){
+  useEffect(() => {
+    if (mode === "edit" && initialData) {
       form.reset(initialData);
     }
-    if(mode === "create"){
+    if (mode === "create") {
       form.reset({
-        title: '',
-        description: '',
-        updatedAt: '',
+        title: "",
+        description: "",
+        updatedAt: "",
       });
     }
-  },[mode, initialData,form])
+  }, [mode, initialData, form]);
 
   async function onSubmit(data: z.infer<typeof formSchema>) {
-  
+    try {
+      if (mode === "create") {
+        const todo = await createTodoList(data);
+        if (todo) {
+          toast.success("Tache ajoutée avec succès !", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
+        }
+      }
+      if (mode === "edit") {
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(`Erreur: ${error}`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   }
   return (
-    <div className='flex w-full items-center justify-center px-2'>
-      <Card className='w-full max-w-lg shadow-md'>
+    <div className="flex w-full items-center justify-center px-2">
+      <Card className="w-full max-w-lg shadow-md">
         <CardHeader>
-            <CardTitle className='text-2xl font-bold text-center'>
-              {mode === "edit" ? "Modifier la tache" : "Ajouter une tache"}
-            </CardTitle>
+          <CardTitle className="text-2xl font-bold text-center">
+            {mode === "edit" ? "Modifier la tache" : "Ajouter une tache"}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
                 control={form.control}
-                name='title'
+                name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='after:content-["*"] after:ml-0.5 after:text-red-500'>Nom de la tache</FormLabel>
+                    <FormLabel className='after:content-["*"] after:ml-0.5 after:text-red-500'>
+                      Nom de la tache
+                    </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder='Entrez le nom de la tache'
+                        placeholder="Entrez le nom de la tache"
                         {...field}
                       />
                     </FormControl>
@@ -89,13 +123,15 @@ export function TodolistForm({ mode, initialData }: TodolistFormProps) {
               />
               <FormField
                 control={form.control}
-                name='description'
+                name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className='after:content-["*"] after:ml-0.5 after:text-red-500'>Description</FormLabel>
+                    <FormLabel className='after:content-["*"] after:ml-0.5 after:text-red-500'>
+                      Description
+                    </FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder='Saisissez la description'
+                        placeholder="Saisissez la description"
                         rows={6}
                         {...field}
                       />
@@ -104,22 +140,29 @@ export function TodolistForm({ mode, initialData }: TodolistFormProps) {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name='updatedAt'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className='after:content-["*"] after:ml-0.5 after:text-red-500'>Date de mise à jour</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Entrez la date de mise à jour" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {mode === "edit" && (
+                <FormField
+                  control={form.control}
+                  name="updatedAt"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className='after:content-["*"] after:ml-0.5 after:text-red-500'>
+                        Date de mise à jour
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Entrez la date de mise à jour"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
               <Button
-                type='submit'
-                className='w-full rounded-full bg-purple-700 hover:bg-purple-800'
+                type="submit"
+                className="w-full rounded-full bg-purple-700 hover:bg-purple-800 cursor-pointer"
               >
                 {mode === "edit" ? "Modifier" : "Ajouter"}
               </Button>

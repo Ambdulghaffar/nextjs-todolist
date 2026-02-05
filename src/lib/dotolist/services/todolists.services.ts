@@ -1,7 +1,7 @@
 "use server";
 
 import environment from "@/config/environment.config";
-import { TodoResponseDTO } from "../models/todolist.models";
+import { TodoRequestDTO, TodoResponseDTO } from "../models/todolist.models";
 import axios from "axios";
 
 const {
@@ -23,6 +23,21 @@ export async function getAllTodolist(
       return [];
     });
 }
+
+export const createTodoList = async (
+  taskData: Partial<TodoRequestDTO>,
+): Promise<TodoResponseDTO> => {
+  return axios
+    .post<TodoResponseDTO>(`${todoUrl}`, taskData)
+    .then((response) => response.data)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .catch((error:any) => {
+      const errorMessage = error.response?.data?.message;
+      throw error;
+    });
+};
+
+
 
 export const deleteTodoList = async (id: number): Promise<void> => {
   return axios

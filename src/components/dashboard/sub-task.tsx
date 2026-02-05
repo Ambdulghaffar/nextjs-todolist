@@ -7,9 +7,6 @@ import {
   InputGroupInput,
 } from "../ui/input-group";
 import dayjs from "dayjs";
-import Link from "next/link";
-import { ROUTES } from "@/utils/routes";
-import { AlertDialog } from "radix-ui";
 import { AlertDialogForm } from "./alert-dialog-form";
 
 export default function SubTask() {
@@ -27,8 +24,9 @@ export default function SubTask() {
           </InputGroupAddon>
         </InputGroup>
         <AlertDialogForm
+          mode="create"
           trigger={
-            <Button className="bg-blue-700 hover:bg-blue-800">
+            <Button className="bg-blue-700 hover:bg-blue-800 cursor-pointer">
               <Plus />
               <p>Ajouter une tache</p>
             </Button>
