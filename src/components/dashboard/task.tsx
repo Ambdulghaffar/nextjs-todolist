@@ -76,6 +76,7 @@ export default function Task() {
                 </div>
                 <div className="flex items-center gap-2">
                   <AlertDialogForm
+                    mode="edit"
                     trigger={
                       <Pencil
                         className="cursor-pointer"

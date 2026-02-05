@@ -18,7 +18,6 @@ import { Textarea } from "../ui/textarea";
 import { useEffect } from "react";
 import { createTodoList } from "@/lib/dotolist/services/todolists.services";
 import { toast } from "react-toastify";
-import { ROUTES } from "@/utils/routes";
 import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
@@ -32,12 +31,14 @@ const formSchema = z.object({
 type TodolistFormProps = {
   mode: "create" | "edit";
   initialData?: z.infer<typeof formSchema>;
+  onSuccess?: () => void;
 };
 
-export function TodolistForm({ mode, initialData }: TodolistFormProps) {
-
-  const route = useRouter();
-
+export function TodolistForm({
+  mode,
+  initialData,
+  onSuccess,
+}: TodolistFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -75,6 +76,7 @@ export function TodolistForm({ mode, initialData }: TodolistFormProps) {
             draggable: true,
             progress: undefined,
           });
+          onSuccess?.(); // Signaler le succès à AlertDialogForm pour rafraîchir la liste
         }
       }
       if (mode === "edit") {
