@@ -10,10 +10,11 @@ import dayjs from "dayjs";
 import { AlertDialogForm } from "./alert-dialog-form";
 
 type SubTaskProps = {
-  onCreateSuccess?: () => void;
+  onCreateSuccess: () => void;
+  onSearch: (title: string) => void;
 };
 
-export default function SubTask({ onCreateSuccess }: SubTaskProps) {
+export default function SubTask({ onCreateSuccess, onSearch }: SubTaskProps) {
   return (
     <div className="flex items-center justify-between  py-5 border-b border-t">
       <div className="flex items-center gap-2">
@@ -22,7 +23,11 @@ export default function SubTask({ onCreateSuccess }: SubTaskProps) {
       </div>
       <div className="flex items-center gap-3">
         <InputGroup>
-          <InputGroupInput className="w-64" placeholder="Chercher une tache par son nom" />
+          <InputGroupInput 
+            className="w-64" 
+            placeholder="Chercher une tache par son nom" 
+            onChange={(e) => onSearch?.(e.target.value)}
+          />
           <InputGroupAddon>
             <Search />
           </InputGroupAddon>

@@ -24,6 +24,16 @@ export async function getAllTodolist(
     });
 }
 
+export const getTodolistsByTitle = async (title: string): Promise<TodoResponseDTO[]> => {
+  return axios
+    .get<TodoResponseDTO[]>(`${todoUrl}/title`, { params: { title } })
+    .then((response) => response.data)
+    .catch((error) => {
+      console.error("Error searching todo lists by title:", error);
+      return [];
+    });
+};
+
 export const createTodoList = async (
   taskData: Partial<TodoRequestDTO>,
 ): Promise<TodoResponseDTO> => {
@@ -56,3 +66,4 @@ export const deleteTodoList = async (id: number): Promise<void> => {
     .delete<void>(`${todoUrl}/${id}`)
     .then((response) => response.data)
 };
+

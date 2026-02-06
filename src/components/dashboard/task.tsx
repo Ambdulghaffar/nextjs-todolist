@@ -13,6 +13,7 @@ import { TodoResponseDTO } from "@/lib/dotolist/models/todolist.models";
 import {
   deleteTodoList,
   getAllTodolist,
+  getTodolistsByTitle,
 } from "@/lib/dotolist/services/todolists.services";
 import { dayjsLocale, truncateStr } from "@/shared/index-shared";
 import { AlertDialogDestructive } from "../alert-dialog-desctructive";
@@ -31,6 +32,15 @@ export default function Task() {
   const [refreshKey, setRefreshKey] = useState(0);
 
   const refetch = () => setRefreshKey(prev => prev + 1);
+
+  const searchByTitle = async (title: string) => {
+    if (title.trim() === '') {
+      refetch();
+    } else {
+      const results = await getTodolistsByTitle(title);
+      setData(results);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,7 +67,7 @@ export default function Task() {
 
   return (
     <div className="px-5 space-y-6">
-      <SubTask onCreateSuccess={refetch} />
+      <SubTask onCreateSuccess={refetch} onSearch={searchByTitle} />
       <div className="flex items-center gap-3 ">
         {tabs.map((tab, id) => (
           <Button
