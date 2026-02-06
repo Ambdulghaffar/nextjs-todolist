@@ -16,20 +16,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
 import { useEffect } from "react";
-import { createTodoList } from "@/lib/dotolist/services/todolists.services";
+import { createTodoList, updateTodoList } from "@/lib/dotolist/services/todolists.services";
 import { toast } from "react-toastify";
+import { TodoResponseDTO } from "@/lib/dotolist/models/todolist.models";
 
 const formSchema = z.object({
   title: z.string().min(2, "Le titre doit faire entre 3 et 100 caractères"),
   description: z
     .string()
     .max(500, "La description ne doit pas dépasser 500 caractères"),
-  updatedAt: z.string().optional(),
 });
 
 type TodolistFormProps = {
   mode: "create" | "edit";
-  initialData?: z.infer<typeof formSchema>;
+  initialData?: TodoResponseDTO;
   onSuccess?: () => void;
 };
 
@@ -43,20 +43,21 @@ export function TodolistForm({
     defaultValues: {
       title: "",
       description: "",
-      updatedAt: "",
     },
   });
 
   /* pré-remplissage en modification */
   useEffect(() => {
     if (mode === "edit" && initialData) {
-      form.reset(initialData);
+      form.reset({
+        title: initialData.title,
+        description: initialData.description,
+      });
     }
     if (mode === "create") {
       form.reset({
         title: "",
         description: "",
-        updatedAt: "",
       });
     }
   }, [mode, initialData, form]);
@@ -75,12 +76,25 @@ export function TodolistForm({
             draggable: true,
             progress: undefined,
           });
-          form.reset(); // Réinitialiser le formulaire après succès
+          form.reset(); 
           onSuccess?.(); // Signaler le succès à AlertDialogForm pour rafraîchir la liste
         }
       }
-      if (mode === "edit") {
-        
+      if (mode === "edit" && initialData) {
+        const updatedTodo = await updateTodoList(initialData.id, data);
+        if (updatedTodo) {
+          toast.success("Tache modifiée avec succès !", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,  
+          });
+          form.reset(); 
+          onSuccess?.(); 
+        }
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -143,26 +157,6 @@ export function TodolistForm({
                   </FormItem>
                 )}
               />
-              {mode === "edit" && (
-                <FormField
-                  control={form.control}
-                  name="updatedAt"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className='after:content-["*"] after:ml-0.5 after:text-red-500'>
-                        Date de mise à jour
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Entrez la date de mise à jour"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )}
               <Button
                 type="submit"
                 className="w-full rounded-full bg-purple-700 hover:bg-purple-800 cursor-pointer"

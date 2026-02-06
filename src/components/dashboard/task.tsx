@@ -80,6 +80,8 @@ export default function Task() {
                 <div className="flex items-center gap-2">
                   <AlertDialogForm
                     mode="edit"
+                    initialData={todolist}
+                    onSuccess={refetch}
                     trigger={
                       <Pencil
                         className="cursor-pointer"

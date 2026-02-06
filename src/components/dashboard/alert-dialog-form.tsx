@@ -9,13 +9,15 @@ import {
 } from "@/components/ui/alert-dialog";
 import { TodolistForm } from "./todolist-form";
 import { useState } from "react";
+import { TodoResponseDTO } from "@/lib/dotolist/models/todolist.models";
 
 type AlertDialogFormProps = {
   trigger: React.ReactNode;
   mode: "create" | "edit";
+  initialData?: TodoResponseDTO;
   onSuccess?: () => void;
 };
-export function AlertDialogForm({ trigger, mode, onSuccess }: AlertDialogFormProps) {
+export function AlertDialogForm({ trigger, mode, initialData, onSuccess }: AlertDialogFormProps) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
    const handleSuccess = () => {
@@ -28,7 +30,7 @@ export function AlertDialogForm({ trigger, mode, onSuccess }: AlertDialogFormPro
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle></AlertDialogTitle>
-          <TodolistForm mode={mode} onSuccess={handleSuccess} />
+          <TodolistForm mode={mode} initialData={initialData} onSuccess={handleSuccess} />
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
