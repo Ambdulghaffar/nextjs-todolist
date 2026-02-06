@@ -22,7 +22,7 @@ export default function SubTask({ onCreateSuccess }: SubTaskProps) {
       </div>
       <div className="flex items-center gap-3">
         <InputGroup>
-          <InputGroupInput className="capitalize" placeholder="search list" />
+          <InputGroupInput className="w-64" placeholder="Chercher une tache par son nom" />
           <InputGroupAddon>
             <Search />
           </InputGroupAddon>
