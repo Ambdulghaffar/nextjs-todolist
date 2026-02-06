@@ -9,7 +9,11 @@ import {
 import dayjs from "dayjs";
 import { AlertDialogForm } from "./alert-dialog-form";
 
-export default function SubTask() {
+type SubTaskProps = {
+  onCreateSuccess?: () => void;
+};
+
+export default function SubTask({ onCreateSuccess }: SubTaskProps) {
   return (
     <div className="flex items-center justify-between  py-5 border-b border-t">
       <div className="flex items-center gap-2">
@@ -25,6 +29,7 @@ export default function SubTask() {
         </InputGroup>
         <AlertDialogForm
           mode="create"
+          onSuccess={onCreateSuccess}
           trigger={
             <Button className="bg-blue-700 hover:bg-blue-800 cursor-pointer">
               <Plus />

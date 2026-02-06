@@ -37,19 +37,7 @@ export const createTodoList = async (
     });
 };
 
-export const updateTodoList = async (
-  id: number,
-  taskData: Partial<TodoRequestDTO>,
-): Promise<TodoResponseDTO> => {
-  return axios
-    .put<TodoResponseDTO>(`${todoUrl}/${id}`, taskData)
-    .then((response) => response.data)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .catch((error:any) => {
-      const errorMessage = error.response?.data?.message;
-      throw error;
-    });
-};
+
 
 export const deleteTodoList = async (id: number): Promise<void> => {
   return axios

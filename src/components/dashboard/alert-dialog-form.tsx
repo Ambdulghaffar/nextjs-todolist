@@ -9,19 +9,18 @@ import {
 } from "@/components/ui/alert-dialog";
 import { TodolistForm } from "./todolist-form";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 type AlertDialogFormProps = {
   trigger: React.ReactNode;
   mode: "create" | "edit";
+  onSuccess?: () => void;
 };
-export function AlertDialogForm({ trigger, mode }: AlertDialogFormProps) {
+export function AlertDialogForm({ trigger, mode, onSuccess }: AlertDialogFormProps) {
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const router =useRouter();
 
    const handleSuccess = () => {
      setIsOpen(false); // Fermer le dialog
-     router.refresh(); // Rafraîchir la page pour afficher les changements
+     onSuccess?.(); // Rafraîchir les données
    }
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>

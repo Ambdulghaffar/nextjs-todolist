@@ -28,6 +28,9 @@ export default function Task() {
   ];
 
   const [data, setData] = useState<TodoResponseDTO[]>([]);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const refetch = () => setRefreshKey(prev => prev + 1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +39,7 @@ export default function Task() {
     };
 
     fetchData();
-  }, []);
+  }, [refreshKey]);
 
   const handleDelete = async (todoId: number) => {
     await deleteTodoList(todoId);
@@ -54,7 +57,7 @@ export default function Task() {
 
   return (
     <div className="px-5 space-y-6">
-      <SubTask />
+      <SubTask onCreateSuccess={refetch} />
       <div className="flex items-center gap-3 ">
         {tabs.map((tab, id) => (
           <Button

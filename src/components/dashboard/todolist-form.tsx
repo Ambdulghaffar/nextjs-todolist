@@ -18,7 +18,6 @@ import { Textarea } from "../ui/textarea";
 import { useEffect } from "react";
 import { createTodoList } from "@/lib/dotolist/services/todolists.services";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   title: z.string().min(2, "Le titre doit faire entre 3 et 100 caractères"),
@@ -76,10 +75,12 @@ export function TodolistForm({
             draggable: true,
             progress: undefined,
           });
+          form.reset(); // Réinitialiser le formulaire après succès
           onSuccess?.(); // Signaler le succès à AlertDialogForm pour rafraîchir la liste
         }
       }
       if (mode === "edit") {
+        
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
