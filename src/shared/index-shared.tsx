@@ -4,6 +4,8 @@ export const dayjsLocale = (date: string) => {
 };
 
 export const truncateStr = (msg: string, length = 50): string => {
-  const result = msg.slice(0, length) + (msg.length > length && '...');
-  return result;
+  if (msg.length > length) {
+    return msg.slice(0, length) + '...';
+  }
+  return msg;
 };
