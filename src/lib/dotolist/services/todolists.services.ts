@@ -32,7 +32,7 @@ export const createTodoList = async (
     .then((response) => response.data)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .catch((error:any) => {
-      const errorMessage = error.response?.data?.message;
+      console.error("Error creating todo list:", error);
       throw error;
     });
 };
@@ -46,7 +46,7 @@ export const updateTodoList = async (
     .then((response) => response.data)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .catch((error:any) => {
-      const errorMessage = error.response?.data?.message;
+      console.error("Error updating todo list:", error);
       throw error;
     });
 };
@@ -54,5 +54,5 @@ export const updateTodoList = async (
 export const deleteTodoList = async (id: number): Promise<void> => {
   return axios
     .delete<void>(`${todoUrl}/${id}`)
-    .then((response) => response.data);
+    .then((response) => response.data)
 };
