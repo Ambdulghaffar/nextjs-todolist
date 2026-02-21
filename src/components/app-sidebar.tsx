@@ -17,35 +17,35 @@ import {
 } from "@/components/ui/sidebar"
 import { NavSecondary } from "./nav-secondary"
 
-// This is sample data.
+// Ceci sont des données d'exemple.
 const data = {
   teams: [
     {
-      name: "HealDocs",
+      name: "Gestion des taches",
       logo: Activity,
     }
   ],
   navMain: [
     {
-      title: "Todo List",
+      title: "Liste de Tâches",
       url: "#",
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
-          title: "Team Meeting",
+          title: "Réunion d'Équipe",
           url: "#",
         },
         {
-          title: "Work on Branding",
+          title: "Travailler sur la Marque",
           url: "#",
         },
         {
-          title: "Make a Report for Client",
+          title: "Faire un Rapport pour le Client",
           url: "#",
         },
         {
-          title: "Create a planer",
+          title: "Créer un Planificateur",
           url: "#",
         },
       ],
@@ -53,7 +53,7 @@ const data = {
   ],
    navSecondary: [
     {
-      title: "OverView",
+      title: "Aperçu",
       url: "#",
       icon: LifeBuoy,
     },
